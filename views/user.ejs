@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <form action="/user/<%= user.id %>?method=PUT" method="POST">
+        <input type="text" placeholder="id" name="id" value="<%= user.id %>"/>
+        <input type="text" placeholder="first_name" name="first_name"  value="<%= user.first_name %>"/>
+        <input type="text" placeholder="email" name="email"  value="<%= user.email %>"/>
+        <input type="text" placeholder="password" name="password"  value="<%= user.password %>"/>
+        <input type="submit" value="update">
+    </form>
+</div>
+</body>
+</html>

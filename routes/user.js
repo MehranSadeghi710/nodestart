@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator');
+const flash = require('connect-flash');
 let users = require('./../users.js');
+router.use(flash());
 
-router.get('/', (req, res) => {
-    res.status(200).json({
-        data: users,
-        success: true
-    });
-})
+// router.get('/', (req, res) => {
+//     res.status(200).json({
+//         data: users,
+//         success: trues
+//     });
+// })
 
 router.get('/:id', function (req, res) {
     let user = users.find( user =>{
@@ -17,27 +19,32 @@ router.get('/:id', function (req, res) {
         }
     });
 
-    res.status(200).json({
-        data: user,
-        success: true
-    });
+    res.render('./../views/user.ejs', {user: user});
 })
 
 
-router.post('/' , [ check('email', 'فرمت ایمیل صحیح نیست').isEmail() , check('password', 'حداقل 5 کلمه').isLength({min : 5})] , function (req, res) {
+router.post('/' , [
+    check('email', 'فرمت ایمیل صحیح نیست').isEmail() ,
+    check('password', 'حداقل 5 کلمه').isLength({min : 5})] ,
+    function (req, res) {
+
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+        req.flash('errors', errors.array());
+        console.log(req.flash(errors));
+        return res.redirect('/user')
     }
     console.log(req.body);
     req.body.id = parseInt(req.body.id);
     users.push(req.body);
-    res.json({
-        data: 'یوزر اضافه شد',
-        success: true
-    })
+    req.flash('message', 'کاربر مورد نظر ایجاد شد')
+    res.redirect('/user');
 })
-
+router.get('/', function (req, res) {
+    console.log(req.flash('message'));
+    res.render('./../views/users.ejs', {users: users, errors: req.flash('errors'), message: req.flash('message')});
+})
 
 router.get('/:username', function (req, res) {
     // console.log(req.params.username);
@@ -54,10 +61,8 @@ router.put('/:id', function (req, res) {
             return user;
         }
     })
-    res.json({
-        data: 'کاربر بروز شد',
-        success: true
-    })
+    req.flash('message', 'کاربر مورد نظر بروز شد')
+    res.redirect('/user')
 })
 
 router.delete('/:id', function (req, res) {
@@ -66,10 +71,8 @@ router.delete('/:id', function (req, res) {
             return user;
         }
     })
-    res.json({
-        data: 'کاربر حذف شد',
-        success: true
-    })
+    req.flash('message', 'کاربر مورد نظر حذف شد')
+    return res.redirect('/user');
 })
 
 module.exports = router;
