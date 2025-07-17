@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator');
 const flash = require('connect-flash');
-let users = require('./../users.js');
+// let users = require('./../users.js');
 router.use(flash());
+const User = require('./../models/user');
 
 // router.get('/', (req, res) => {
 //     res.status(200).json({
@@ -12,13 +13,8 @@ router.use(flash());
 //     });
 // })
 
-router.get('/:id', function (req, res) {
-    let user = users.find( user =>{
-        if(user.id == req.params.id){
-            return user;
-        }
-    });
-
+router.get('/:id', async function (req, res) {
+    let user = await User.findOne({_id: req.params.id})
     res.render('./../views/user.ejs', {user: user});
 })
 
@@ -26,7 +22,7 @@ router.get('/:id', function (req, res) {
 router.post('/' , [
     check('email', 'فرمت ایمیل صحیح نیست').isEmail() ,
     check('password', 'حداقل 5 کلمه').isLength({min : 5})] ,
-    function (req, res) {
+    async function (req, res) {
 
     const errors = validationResult(req);
     console.log(errors);
@@ -37,12 +33,20 @@ router.post('/' , [
     }
     console.log(req.body);
     req.body.id = parseInt(req.body.id);
-    users.push(req.body);
+    let newUser = new User({
+        email: req.body.email,
+        password: req.body.password,
+        first_name: req.body.first_name,
+        });
+    await newUser.save();
+
+    // users.push(req.body);
     req.flash('message', 'کاربر مورد نظر ایجاد شد')
     res.redirect('/user');
 })
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
     console.log(req.flash('message'));
+    let users = await User.find({});
     res.render('./../views/users.ejs', {users: users, errors: req.flash('errors'), message: req.flash('message')});
 })
 
@@ -52,25 +56,14 @@ router.get('/:username', function (req, res) {
     res.send('Hello World!');
 })
 
-router.put('/:id', function (req, res) {
-    users = users.map(user =>{
-        if(user.id == req.params.id){
-            return req.body;
-        }
-        else {
-            return user;
-        }
-    })
+router.put('/:id', async function (req, res) {
+    await User.updateMany({_id: req.params.id}, {$set: req.body});
     req.flash('message', 'کاربر مورد نظر بروز شد')
     res.redirect('/user')
 })
 
-router.delete('/:id', function (req, res) {
-    users = users.filter(user=>{
-        if(user.id != req.params.id){
-            return user;
-        }
-    })
+router.delete('/:id', async function (req, res) {
+    await User.deleteOne({_id: req.params.id});
     req.flash('message', 'کاربر مورد نظر حذف شد')
     return res.redirect('/user');
 })
