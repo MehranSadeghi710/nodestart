@@ -1,10 +1,9 @@
 const autoBind = require("auto-bind");
 
-class Controller{
+class Validator {
     constructor() {
         autoBind(this);
-        this.name = 'Controller';
     }
 }
 
-module.exports = Controller;
+module.exports = Validator;

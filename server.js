@@ -4,8 +4,9 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
-require('dotenv').config();
 const mongoose = require('mongoose');
+require('app-module-path').addPath(__dirname);
+require('dotenv').config();
 mongoose.connect('mongodb://localhost:27017/nodestart', {useNewUrlParser: true, useUnifiedTopology: true});
 
 global.config = require('./config.js');
