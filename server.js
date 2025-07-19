@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const mongoStore = require('connect-mongo')(session)
 require('app-module-path').addPath(__dirname);
 require('dotenv').config();
@@ -26,6 +27,9 @@ app.use(session({
     store : mongoStore({mongooseConnection : mongoose.connection})
 }))
 app.use(flash());
+require('./passport/passport-local');
+app.use(passport.initialize());
+app.use(passport.session())
 //
 app.get('/', function (req, res) {
     res.render('index');
