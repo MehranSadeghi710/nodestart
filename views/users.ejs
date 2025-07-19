@@ -9,16 +9,7 @@
         <title>Document</title>
     </head>
     <body>
-    <%if(errors.length){ %>
-        <div>
-            <ul>
-                <% errors.forEach(err=>{ %>
-                    <li><%= err.msg %></li>
-                <% }) %>
-            </ul>
-        </div>
-    <% } %>
-
+    <%- include('./components/validation-error') -%>
 
     <% if(message){ %>
         <h4><%= message %></h4>

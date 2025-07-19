@@ -28,7 +28,10 @@ app.use(flash());
 app.get('/', function (req, res) {
     res.render('index');
 })
-
+app.use((req, res, next)=>{
+    res.locals = { errors : req.flash('errors'),  };
+    next();
+})
 app.use('/user', require('./routes/index'));
 
 app.listen(config.port, ()=>{
