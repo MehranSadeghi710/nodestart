@@ -1,8 +1,8 @@
-const autoBind = require("auto-bind");
+// const autoBind = require("auto-bind");
 
 class Validator {
     constructor() {
-        autoBind(this);
+        // autoBind(this);
     }
 }
 

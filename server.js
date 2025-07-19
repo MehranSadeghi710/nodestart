@@ -24,12 +24,12 @@ app.use(session({
     cookie: {secure : true}
 }))
 app.use(flash());
-
+//
 app.get('/', function (req, res) {
     res.render('index');
 })
 
-app.use('/user', require('./routes/user'));
+app.use('/user', require('./routes/index'));
 
 app.listen(config.port, ()=>{
     console.log(`Server started on port ${config.port}`);

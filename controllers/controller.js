@@ -1,9 +1,14 @@
-const autoBind = require("auto-bind");
+const autoBind = require("auto-bind")
 
 class Controller{
     constructor() {
-        autoBind(this);
+        // autoBind(this);
         this.name = 'Controller';
+    }
+    error(message, status = 500) {
+        let err = new Error(message);
+        err.status = status;
+        throw err;
     }
 }
 
