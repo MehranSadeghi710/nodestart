@@ -2,7 +2,7 @@
     <div>
         <ul>
             <% errors.forEach(err=>{ %>
-                <li><%= err.msg %></li>
+                <li><%= err %></li>
             <% }) %>
         </ul>
     </div>

@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
+const mongoStore = require('connect-mongo')(session)
 require('app-module-path').addPath(__dirname);
 require('dotenv').config();
 mongoose.connect('mongodb://localhost:27017/nodestart', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -21,7 +22,8 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: {secure : true}
+    cookie: {expires : new Date(Date.now() + 1000 * 3600 * 24 * 100)},
+    store : mongoStore({mongooseConnection : mongoose.connection})
 }))
 app.use(flash());
 //
@@ -32,7 +34,7 @@ app.use((req, res, next)=>{
     res.locals = { errors : req.flash('errors'),  };
     next();
 })
-app.use('/user', require('./routes/index'));
+app.use('/', require('./routes/index'));
 
 app.listen(config.port, ()=>{
     console.log(`Server started on port ${config.port}`);

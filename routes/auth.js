@@ -6,6 +6,14 @@ const authController = require("controllers/authController");
 const authValidator = require("validators/authVlidator");
 router.use(flash());
 
+router.use((req, res, next) => {
+    if (true){
+        return res.redirect('/dashboard');
+    }
+    next();
+})
+
+
 router.get('/login', authController.loginForm.bind(authController));
 
 router.get('/register', authController.registerForm.bind(authController));

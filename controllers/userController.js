@@ -7,7 +7,7 @@ class UserController extends controller{
         try {
             console.log(req.flash('message'));
             let users = await User.find({});
-            res.render('./../views/users.ejs', {
+            res.render("./../views/users.ejs", {
                 users: users,
                 errors: req.flash('errors'),
                 message: req.flash('message')
