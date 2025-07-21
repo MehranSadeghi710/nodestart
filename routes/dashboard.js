@@ -6,7 +6,7 @@ const dashboardController = require("controllers/dashboardController");
 router.use(flash());
 
 router.use((req, res, next) => {
-    if (true){
+    if (req.isAuthenticated()){
         return next();
     }
     res.redirect('/');

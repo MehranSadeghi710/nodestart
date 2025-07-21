@@ -35,7 +35,8 @@ app.get('/', function (req, res) {
     res.render('index');
 })
 app.use((req, res, next)=>{
-    res.locals = { errors : req.flash('errors'),  };
+    console.log(req.user)
+    res.locals = { errors : req.flash('errors'), req: req };
     next();
 })
 app.use('/', require('./routes/index'));

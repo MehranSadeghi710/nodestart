@@ -7,7 +7,7 @@ const authValidator = require("validators/authVlidator");
 router.use(flash());
 
 router.use((req, res, next) => {
-    if (true){
+    if (req.isAuthenticated()){
         return res.redirect('/dashboard');
     }
     next();

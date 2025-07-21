@@ -5,7 +5,8 @@ router.use('/user', require('./user'))
 router.use('/auth', require('./auth'))
 router.use('/dashboard', require('./dashboard'))
 router.get('/logout', (req, res) => {
-    console.log('logged out');
+    req.logout();
+    res.redirect('/');
 })
 // router.all('*', async (req, res, next) => {
 //     try {
