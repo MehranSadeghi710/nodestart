@@ -1,6 +1,7 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
+const bcrypt = require('bcryptjs')
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -26,7 +27,7 @@ passport.use("local.register", new localStrategy(
             const newUser = new User({
                 first_name: req.body.first_name,
                 email: req.body.email,
-                password: req.body.password,
+                password: bcrypt.hashSync(req.body.password, 8),
             })
             await newUser.save();
             done(null, newUser);
@@ -36,7 +37,7 @@ passport.use("local.register", new localStrategy(
     }
 ));
 
-passport.use("local.register", new localStrategy(
+passport.use("local.login", new localStrategy(
     {
         usernameField: 'email',
         passwordField: 'password',
@@ -44,7 +45,7 @@ passport.use("local.register", new localStrategy(
     },  async (req, email, password, done ) => {
         try {
             let user = await User.findOne({email: req.body.email});
-            if (!user || user.password !== req.body.password) {
+            if (!user || !bcrypt.compareSync(req.body.password, user.password)) {
                 return done(null, false, req.flash('errors', 'اطلاعات شما هماهنگی ندارد'));
             }
             done(null, user);
