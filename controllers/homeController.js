@@ -19,8 +19,17 @@ class dashboardController extends controller {
                 Authority: req.query.Authority
             }
             const response = await axios.post("https://www.zarinpal.com/pg/rest/WebGate/PaymentVerification.json", params);
-            if(response.data.status === 100){
+            if(response.data.status == 100){
                 let balance = payment.amount;
+                let user = await User.findById(payment.user);
+                if (user.balance){
+                    balance += user.balance;
+                }
+                user.balance = balance;
+                payment.payment = true;
+                await user.save();
+                await payment.save();
+                res.redirect('/dashboard');
             }else {
                 return res.send('تراکنش ناموفق')
 
