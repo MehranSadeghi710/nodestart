@@ -2,12 +2,15 @@ let controller = require('./controller');
 const User = require('./../models/user');
 const {validationResult} = require("express-validator");
 const passport = require("passport");
+const Recaptcha = require("express-recaptcha").RecaptchaV2;
+const options = {'hl':'fa'};
+const recaptcha = new Recaptcha('6Lf8S4srAAAAAGCDr3iuPB75zC1U5vU7pIFB400i', '6Lf8S4srAAAAAGnI_k7F2Snt-MIZlomhr7SPrCgv', options)
 
 class UserController extends controller{
     async registerForm (req, res, next) {
         try {
 
-            res.render("auth/register", {errors: req.flash('errors')});
+            res.render("auth/register", {recaptcha: recaptcha.render()});
         } catch (error) {
             next(error);
         }
@@ -22,6 +25,19 @@ class UserController extends controller{
     }
     async register (req, res, next) {
         try {
+            let recaptchaResult = await new Promise((resolve, reject) => {
+                recaptcha.verify(req ,(err, data)=>{
+                    if(err){
+                        req.flash('errors','گزینه امنیتی را بزنید')
+                        res.redirect('/auth/register');
+                        resolve(false);
+                    }else {resolve(true)}
+                });
+            })
+            if(recaptchaResult){
+                return 
+            }
+
             const errors = validationResult(req);
             console.log(errors);
             if (!errors.isEmpty()) {
