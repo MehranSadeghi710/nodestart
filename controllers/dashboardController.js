@@ -10,6 +10,28 @@ class dashboardController extends controller{
             next(error);
         }
         }
+    async edituser (req, res, next) {
+        try {
+            const errors = validationResult(req);
+            console.log(errors);
+            if (!errors.isEmpty()) {
+                let myErrors = errors.array().map(err => err.msg);
+                req.flash('errors', myErrors);
+                console.log(req.flash(errors));
+                return res.redirect('./dashboard',);
+            }
+            let data = {
+                firstName: req.body.firstName,
+            }
+            if (req.file){
+                data.img = req.file.path.replace(/\\/g, '/').substring(6);
+            }
+            await User.updateOne({_id: req.user.id}, {$set: data})
+            res.redirect('./dashboard');
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new dashboardController;

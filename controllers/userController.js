@@ -33,9 +33,10 @@ class UserController extends controller{
             const errors = validationResult(req);
             console.log(errors);
             if (!errors.isEmpty()) {
-                req.flash('errors', errors.array());
+                let myErrors = errors.array().map(err => err.msg);
+                req.flash('errors', myErrors);
                 console.log(req.flash(errors));
-                return res.redirect('/user')
+                return res.redirect('./user',);
             }
             console.log(req.body);
             req.body.id = parseInt(req.body.id);
