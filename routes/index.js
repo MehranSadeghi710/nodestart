@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const homeController = require('../controllers/homeController');
 
 router.use('/user', require('./user'))
 router.use('/auth', require('./auth'))
@@ -8,6 +9,7 @@ router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 })
+router.get('/paycallback', homeController.paycallback.bind(homeController));
 // router.all('*', async (req, res, next) => {
 //     try {
 //         let err = new Error('Not Found');

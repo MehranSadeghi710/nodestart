@@ -16,6 +16,7 @@ router.use((req, res, next) => {
 
 
 router.get('/', dashboardController.index.bind(dashboardController));
+router.post('/pay', dashboardController.pay.bind(dashboardController));
 router.post('/edituser', uploadUserProfile.single('img'), (req, res, next)=>{
     if(!req.file){
         req.body.img = null;

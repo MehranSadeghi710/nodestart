@@ -35,7 +35,7 @@ class UserController extends controller{
                 });
             })
             if(recaptchaResult){
-                return 
+                return
             }
 
             const errors = validationResult(req);
