@@ -3,7 +3,7 @@ const router = express.Router();
 const {check, validationResult} = require('express-validator');
 const flash = require('connect-flash');
 const authController = require("controllers/authController");
-const authValidator = require("validators/authVlidator");
+const authValidator = require("validators/authValidator");
 router.use(flash());
 
 router.use((req, res, next) => {

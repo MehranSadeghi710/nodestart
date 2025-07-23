@@ -9,11 +9,20 @@
 </head>
 <body>
 <%- include('./../components/validation-error') -%>
+<%if(errors){ %>
+    <div>
+        <ul>
+            <% errors.forEach(err=>{ %>
+                <li><%= err %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
 
 <div>
-    <form action="./auth/login<%= req.user.id %>" method="POST">
-        <input type="text" placeholder="email" name="email"  value="<%= user.email %>"/>
-        <input type="text" placeholder="password" name="password"  value="<%= user.password %>"/>
+    <form action="./login" method="POST">
+        <input type="text" placeholder="email" name="email" />
+        <input type="text" placeholder="password" name="password" />
         <input type="submit" value="login">
     </form>
 </div>

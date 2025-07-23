@@ -2,7 +2,7 @@ const validator = require('./validator')
 const {check, validationResult} = require('express-validator');
 
 
-module.exports = new class UserVlidator extends validator {
+module.exports = new class authValidator extends validator {
     register(){
         return[check("first_name","First name is required").not().isEmpty(),
             check('email', 'فرمت ایمیل صحیح نیست').isEmail() ,

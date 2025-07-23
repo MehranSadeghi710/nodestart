@@ -3,7 +3,7 @@ const router = express.Router();
 const {check, validationResult} = require('express-validator');
 const flash = require('connect-flash');
 const userController = require("./../controllers/userController");
-const userValidator = require("./../validators/userVlidator");
+const userValidator = require("../validators/userValidator");
 router.use(flash());
 const User = require('./../models/user');
 router.get('/', userController.getAllUsers.bind(userController));

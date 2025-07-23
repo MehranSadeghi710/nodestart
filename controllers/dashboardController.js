@@ -45,7 +45,7 @@ class dashboardController extends controller{
                 let myErrors = errors.array().map(err => err.msg);
                 req.flash('errors', myErrors);
                 console.log(req.flash(errors));
-                return res.redirect('./dashboard',);
+                return res.redirect('./',);
             }
             let data = {
                 firstName: req.body.firstName,
@@ -54,7 +54,7 @@ class dashboardController extends controller{
                 data.img = req.file.path.replace(/\\/g, '/').substring(6);
             }
             await User.updateOne({_id: req.user.id}, {$set: data})
-            res.redirect('./dashboard');
+            res.redirect('./');
         } catch (error) {
             next(error);
         }

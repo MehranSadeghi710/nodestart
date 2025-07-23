@@ -10,7 +10,7 @@ class UserController extends controller{
     async registerForm (req, res, next) {
         try {
 
-            res.render("auth/register", {recaptcha: recaptcha.render()});
+            res.render("auth/register", {recaptcha: recaptcha.render(), errors: req.flash("errors")});
         } catch (error) {
             next(error);
         }
@@ -18,7 +18,8 @@ class UserController extends controller{
     async loginForm (req, res, next) {
         try {
 
-            res.render("auth/login", {errors: req.flash('errors'), req: req});
+            res.render("auth/login", {errors: req.flash('errors'),
+            req: req});
         } catch (error) {
             next(error);
         }
@@ -61,10 +62,10 @@ class UserController extends controller{
                 let myErrors = errors.array().map(err => err.msg);
                 req.flash('errors', myErrors);
                 console.log(req.flash(errors));
-                return res.redirect('./auth/login',);
+                return res.redirect('./login');
             }
             passport.authenticate('local.login', (err, user) => {
-                if (!user) return res.redirect('/auth/login');
+                if (!user) return res.redirect('./login');
                 req.logIn(user, err =>{
                     return res.redirect('/dashboard');
                 })

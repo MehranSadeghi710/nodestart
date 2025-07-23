@@ -9,6 +9,15 @@
 </head>
 <body>
 <%- include('./../components/validation-error') -%>
+<%if(errors){ %>
+    <div>
+        <ul>
+            <% errors.forEach(err=>{ %>
+                <li><%= err %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
 <div>
     <form action="/auth/register" method="POST">
         <input type="text" placeholder="first_name" name="first_name"  />
