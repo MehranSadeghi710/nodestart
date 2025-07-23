@@ -6,11 +6,12 @@ class UserController extends controller{
     async getAllUsers (req, res, next) {
         try {
             console.log(req.flash('message'));
-            let users = await User.find({});
+            let users = await User.find();
             res.render("./../views/users.ejs", {
                 users: users,
                 errors: req.flash('errors'),
-                message: req.flash('message')
+                message: req.flash('message'),
+                req: req
             });
         } catch (error) {
             next(error);
@@ -18,7 +19,6 @@ class UserController extends controller{
         }
     async seeOneUser(req, res, next) {
         try {
-
             let user = await User.findOne({_id: req.params.id})
             if (!user) {
                 this.error('User not found', 404);

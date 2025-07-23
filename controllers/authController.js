@@ -18,7 +18,7 @@ class UserController extends controller{
     async loginForm (req, res, next) {
         try {
 
-            res.render("auth/login", {errors: req.flash('errors')});
+            res.render("auth/login", {errors: req.flash('errors'), req: req});
         } catch (error) {
             next(error);
         }
@@ -34,16 +34,14 @@ class UserController extends controller{
                     }else {resolve(true)}
                 });
             })
-            if(recaptchaResult){
-                return
-            }
-
+            // if(recaptchaResult){
+            //     return
+            // }
             const errors = validationResult(req);
             console.log(errors);
             if (!errors.isEmpty()) {
                 let myErrors = errors.array().map(err => err.msg);
                 req.flash('errors', myErrors);
-                console.log(req.flash(errors));
                 return res.redirect('/auth/register');
             }
             passport.authenticate('local.register', {

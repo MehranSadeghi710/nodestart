@@ -9,10 +9,12 @@ const passport = require('passport');
 const mongoStore = require('connect-mongo')(session)
 require('app-module-path').addPath(__dirname);
 require('dotenv').config();
+
+
 mongoose.connect('mongodb://localhost:27017/nodestart', {useNewUrlParser: true, useUnifiedTopology: true});
 
 global.config = require('./config.js');
-
+//
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended : false }));
 app.set ('view engine', 'ejs');
@@ -24,22 +26,28 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {expires : new Date(Date.now() + 1000 * 3600 * 24 * 100)},
-    store : mongoStore({mongooseConnection : mongoose.connection})
+    store : new mongoStore({mongooseConnection : mongoose.connection})
 }))
 app.use(flash());
 require('./passport/passport-local');
 app.use(passport.initialize());
 app.use(passport.session())
-//
+
+app.use((req,res,next)=>{
+    res.locals = {errors: req.flash("errors"), req};
+    next();
+})
+
 app.get('/', function (req, res) {
-    res.render('index');
+    res.render('E:/node_p/nodestart/views/index.ejs', {req:req});
 })
 app.use((req, res, next)=>{
     console.log(req.user)
     res.locals = { errors : req.flash('errors'), req: req };
     next();
 })
-app.use('/', require('./routes/index'));
+console.log('Server is running on port 3000');
+ app.use('/', require('./routes/index'));
 
 app.listen(config.port, ()=>{
     console.log(`Server started on port ${config.port}`);

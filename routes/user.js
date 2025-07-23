@@ -6,7 +6,6 @@ const userController = require("./../controllers/userController");
 const userValidator = require("./../validators/userVlidator");
 router.use(flash());
 const User = require('./../models/user');
-
 router.get('/', userController.getAllUsers.bind(userController));
 
 router.get('/:id', userController.seeOneUser.bind(userController));

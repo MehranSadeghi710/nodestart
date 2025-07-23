@@ -9,7 +9,7 @@
         <title>Document</title>
     </head>
     <body>
-    <%- include('./components/validation-error') -%>
+    <%- include('components/validation-error') -%>
 
     <% if(message){ %>
         <h4><%= message %></h4>
@@ -26,7 +26,7 @@
         <table>
             <thead>
             <tr>
-                <th>id</th>
+<!--                <th>id</th>-->
                 <th>first_name</th>
                 <th>email</th>
                 <th>password</th>
@@ -36,7 +36,7 @@
             <tbody>
             <% users.forEach(user=>{ %>
                 <tr>
-                    <td><%= user.id %></td>
+<!--                    <td><%= user.id %></td>-->
                     <td><%= user.first_name %></td>
                     <td><%= user.email %></td>
                     <td><%= user.password %></td>

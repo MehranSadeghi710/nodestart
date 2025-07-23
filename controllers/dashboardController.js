@@ -7,12 +7,12 @@ const {validationResult} = require("express-validator");
 class dashboardController extends controller{
     async index (req, res, next) {
         try {
-            res.render('./../views/dashboard/index', )
+            res.render('./../views/dashboard/index',{req:req,})
         } catch (error) {
             next(error);
         }
         }
-        async pay (req, res, next) {
+    async pay (req, res, next) {
         try {
             let params = {
                 MerchantID: "6cded376-3063-11e9-a98e-005056a205be",
