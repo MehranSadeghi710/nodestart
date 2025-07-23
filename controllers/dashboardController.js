@@ -40,13 +40,13 @@ class dashboardController extends controller{
     async edituser (req, res, next) {
         try {
             const errors = validationResult(req);
-            console.log(errors);
-            if (!errors.isEmpty()) {
-                let myErrors = errors.array().map(err => err.msg);
-                req.flash('errors', myErrors);
-                console.log(req.flash(errors));
-                return res.redirect('./',);
-            }
+            // console.log(errors);
+            // if (!errors.isEmpty()) {
+            //     let myErrors = errors.array().map(err => err.msg);
+            //     req.flash('errors', myErrors);
+            //     console.log(req.flash(errors));
+            //     return res.redirect('./',);
+            // }
             let data = {
                 firstName: req.body.firstName,
             }
