@@ -75,5 +75,4 @@ class UserController extends controller{
         }
     }
 }
-//mkm lmlmp
 module.exports = new UserController;
