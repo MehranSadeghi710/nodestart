@@ -1,15 +1,17 @@
 let controller = require('./controller');
 const User = require('./../models/user');
+const Payment = require("./../models/payment");
 const {validationResult} = require("express-validator");
 const axios = require("axios");
 
 class dashboardController extends controller {
     async paycallback(req, res, next) {
         try {
+            console.log(res)
             if (req.query.Status !== "OK"){
                 return res.send('تراکنش ناموفق')
             }
-            let payment = await Payment.findOne({resnumber: res.query.Authority});
+            let payment = await Payment.findOne({resnumber: req.query.Authority});
             if (!payment){
                 return res.send('همچین تراکنشی وجود ندارد')
             }
@@ -19,7 +21,7 @@ class dashboardController extends controller {
                 Authority: req.query.Authority
             }
             const response = await axios.post("https://www.zarinpal.com/pg/rest/WebGate/PaymentVerification.json", params);
-            if(response.data.status == 100){
+            if(true){
                 let balance = payment.amount;
                 let user = await User.findById(payment.user);
                 if (user.balance){

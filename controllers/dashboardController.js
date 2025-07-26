@@ -15,25 +15,27 @@ class dashboardController extends controller{
     async pay (req, res, next) {
         try {
             let params = {
-                MerchantID: "6cded376-3063-11e9-a98e-005056a205be",
-                Amount: req.body.amount,
-                CallbackURL : "http://localhost:3000/paycallback",
-                Description: "افزایش حساب کاربری"
+                merchant_id: "6cded376-3063-11e9-a98e-005056a205be",
+                amount: req.body.amount,
+                callback_url : "http://127.0.0.1:3000/paycallback",
+                description: "افزایش حساب کاربری"
             }
-            const response = await axios.post("https://www.zarinpal.com/pg/rest/WebGate/PaymentRequest.json", params);
-            if(response.data.status === 100){
+            const response = await axios.post("https://sandbox.zarinpal.com/pg/v4/payment/request.json", params);
+            console.log(response);
+            if(response.data.data.code == 100){
                 let newPayment = new Payment({
                     user : req.user.id,
                     amount: req.body.amount,
-                    resnumber : response.data.Authority
+                    resnumber : response.data.data.authority
                 });
                 await newPayment.save();
-                res.redirect(`https://www.zarinpal.com/pg/StartPay/${response.data.Authority}`);
+                res.redirect(`https://sandbox.zarinpal.com/pg/StartPay/${response.data.data.authority}`);
 
             }else {
                res.redirect('/dashboard')
             }
         } catch (error) {
+            console.log(error);
             next(error);
         }
         }
@@ -54,7 +56,7 @@ class dashboardController extends controller{
                 data.img = req.file.path.replace(/\\/g, '/').substring(6);
             }
             await User.updateOne({_id: req.user.id}, {$set: data})
-            res.redirect('./');
+            res.redirect('/');
         } catch (error) {
             next(error);
         }

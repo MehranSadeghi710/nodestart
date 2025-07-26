@@ -12,14 +12,14 @@
 
     <h1>dashboard</h1>
     <h2>hi <%= req.user.first_name %></h2>
-<img src="/<%= req.user.img %>" style="width: 100px; border-radius: 50%;" alt="">
+    <img src="<%= req.user.img %>" style="width: 200px; border-radius: 60%;" alt="">
     <form action="/dashboard/edituser" method="POST" enctype="multipart/form-data">
         <input type="text" placeholder="name" name="name" value="<%= req.user.name %>">
         <input type="file" name="img">
         <input type="submit" value="send">
     </form>
-<h2><% req.user.balance %> اعتبار کنونی شما   </h2>
-<form action="/dashboard/pay " method="POST" style="border: 1px solid green;">
+<h2><%= req.user.balance %> اعتبار کنونی شما   </h2>
+<form action="/dashboard/pay " method="POST" style="border: 1px solid #19ba19;">
     <h3>اعتبار حساب خود را اقزایش دهید</h3>
     <input type="number" name="amount" placeholder="مبلغ دلخواه">
     <input type="submit" value="پرداخت">
