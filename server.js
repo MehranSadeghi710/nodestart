@@ -33,10 +33,10 @@ require('./passport/passport-local');
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.use((req,res,next)=>{
-    res.locals = {errors: req.flash("errors"), req};
-    next();
-})
+// app.use((req,res,next)=>{
+//     res.locals = {errors: req.flash("errors"), req};
+//     next();
+// })
 
 app.get('/', function (req, res) {
     res.render('E:/node_p/nodestart/views/index.ejs', {req:req});
