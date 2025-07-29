@@ -12,7 +12,7 @@ router.use((req, res, next) => {
     }
     next();
 })
-
+///
 
 router.get('/login', authController.loginForm.bind(authController));
 
